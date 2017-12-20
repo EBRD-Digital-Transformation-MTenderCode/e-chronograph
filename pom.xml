@@ -5,7 +5,7 @@
 
     <groupId>com.ocds</groupId>
     <artifactId>e-chronograph</artifactId>
-    <version>0.0.1</version>
+    <version>17.12.1</version>
     <packaging>jar</packaging>
 
     <name>e-chronograph</name>
@@ -34,6 +34,7 @@
         <docker-maven-plugin.version>0.23.0</docker-maven-plugin.version>
         <junit-jupiter.version>5.0.0</junit-jupiter.version>
         <junit-platform.version>1.0.0</junit-platform.version>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
         <spring-cloud.version>Finchley.M2</spring-cloud.version>
@@ -78,8 +79,8 @@
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-config</artifactId>
-                <version>2.0.0.M5</version>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -338,16 +339,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>${maven-compiler-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${docker-maven-plugin.version}</version>
                 <configuration>
-                    <registry>${docker-registry}</registry>
                     <images>
                         <image>
+                            <registry>${docker-registry}</registry>
                             <name>${project.artifactId}:${project.version}</name>
                             <build>
                                 <from>openjdk:8-jre-alpine</from>
