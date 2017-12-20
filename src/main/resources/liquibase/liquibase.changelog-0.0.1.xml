@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_table_tasks" author="Maxim Sambulat">
+        <sql>
+            CREATE SEQUENCE requests_seq;
+            CREATE TABLE requests
+            (
+                id BIGINT NOT NULL DEFAULT nextval('requests_seq'),
+                used BOOLEAN NOT NULL DEFAULT FALSE,
+                action VARCHAR(32) NOT NULL,
+                ocid VARCHAR(32) NOT NULL,
+                phase VARCHAR(32) NOT NULL,
+                launch_time TIMESTAMP,
+                task_data TEXT,
+                sent_time TIMESTAMP NOT NULL,
+                received_time TIMESTAMP NOT NULL
+            );
+
+            ALTER TABLE ONLY requests
+                ADD CONSTRAINT requests_pkey PRIMARY KEY (id);
+            CREATE INDEX id_index ON requests (id)
+                WHERE used is false;
+
+            CREATE TABLE tasks
+            (
+                request_id BIGINT NOT NULL,
+                active BOOLEAN NOT NULL,
+                ocid VARCHAR(32) NOT NULL,
+                phase VARCHAR(32) NOT NULL,
+                launch_time TIMESTAMP NOT NULL,
+                task_data TEXT NOT NULL,
+                created_time TIMESTAMP NOT NULL,
+                deactivate_time TIMESTAMP,
+                canceled_time TIMESTAMP
+            );
+
+            ALTER TABLE ONLY tasks
+                ADD CONSTRAINT tasks_pkey PRIMARY KEY (request_id);
+            CREATE UNIQUE INDEX tasks_key_unq ON tasks (ocid, phase)
+                WHERE active;
+            CREATE INDEX launch_time_index ON tasks (launch_time)
+                WHERE active is true;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

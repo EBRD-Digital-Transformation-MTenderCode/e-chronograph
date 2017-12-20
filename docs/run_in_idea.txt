@@ -1,0 +1,4 @@
+-Dspring.config.location=file:"path to file 'application.yml'"
+
+example
+-Dspring.config.location=file:/home/maxim/dev/workspace/procuremen/chronograph/src/main/resources/application.yml

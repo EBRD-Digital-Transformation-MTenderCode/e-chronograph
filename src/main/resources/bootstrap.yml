@@ -1,0 +1,16 @@
+#-Dspring.cloud.config.uri=http://localhost:8700
+server:
+  port: @project.service.port@
+
+spring:
+  application:
+    name: Chronograph
+
+#  cloud:
+#    config:
+#      failFast: true
+#      name: Chronograph
+#      label: v1
+#      username: pbox-CfgSvr
+#      password: 3sE-(aG4eb2&D8t`
+#      uri: http://localhost:8700

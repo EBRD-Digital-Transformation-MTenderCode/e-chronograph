@@ -1,0 +1,1 @@
+clean install -Pupdate-database -Dliquibase.url=jdbc:postgresql://localhost:5432/chronodb -Dliquibase.username=postgres -Dliquibase.password=postgres

@@ -1,0 +1,7 @@
+{
+    "action": "schedule",
+    "ocid": "ocid-123",
+    "phase": "phase-123",
+    "newLaunchTime": "2017-12-19T18:27:53",
+    "metaData": "json-metaData"
+}
