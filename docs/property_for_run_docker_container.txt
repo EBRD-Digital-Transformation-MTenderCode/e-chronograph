@@ -1,0 +1,4 @@
+# spring.cloud.config.uri=http://host:port
+# spring.cloud.config.username=
+# spring.cloud.config.password=
+# spring.cloud.config.label=
