@@ -14,18 +14,11 @@ import com.ocds.chronograph.repository.RequestRepository
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
-import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.apache.kafka.common.serialization.StringDeserializer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory
-import org.springframework.kafka.listener.AcknowledgingMessageListener
-import org.springframework.kafka.listener.KafkaMessageListenerContainer
-import org.springframework.kafka.listener.config.ContainerProperties
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.LocalDateTime
@@ -57,28 +50,20 @@ class RequestServiceImpl @Autowired constructor(
             log.debug("A request was sent for processing: $request.")
         }
 
-        val containerProps = ContainerProperties(kafkaConfiguration.kafkaConsumerProperties.topic)
-
-        containerProps.messageListener =
-            AcknowledgingMessageListener<String, String> { data: ConsumerRecord<String, String>, _ /*acknowledgment: Acknowledgment*/ ->
-                runBlocking {
-                    parse(data)
-                        ?.let { message ->
-                            message.save()
-                                ?.let { requestId ->
-                                    when (message) {
-                                        is ScheduleMessage -> message.toRequest(requestId).send()
-                                        is ReplaceMessage -> message.toRequest(requestId).send()
-                                        is CancelMessage -> message.toRequest(requestId).send()
-                                    }
-                                }
+        KafkaConsumerListener(kafkaConfiguration) { data, _, consumer ->
+            parse(data)
+                ?.let { message ->
+                    message.save()
+                        ?.let { requestId ->
+                            when (message) {
+                                is ScheduleMessage -> message.toRequest(requestId).send()
+                                is ReplaceMessage -> message.toRequest(requestId).send()
+                                is CancelMessage -> message.toRequest(requestId).send()
+                            }
                         }
                 }
-            }
-
-        val container = createContainer(containerProps)
-        container.beanName = "testAuto"
-        container.start()
+            consumer?.commitSync()
+        }.run()
     }
 
     override fun run() {
@@ -91,20 +76,6 @@ class RequestServiceImpl @Autowired constructor(
         log.error("Error of load requests from database.")
         emptyList()
     }
-
-    private fun createContainer(
-        containerProps: ContainerProperties): KafkaMessageListenerContainer<String, String> {
-        val props = consumerProps()
-        val cf = DefaultKafkaConsumerFactory<String, String>(props)
-        return KafkaMessageListenerContainer(cf, containerProps)
-    }
-
-    private fun consumerProps(): Map<String, Any> = mapOf(
-        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to kafkaConfiguration.kafkaProperties.bootstrapServers,
-        ConsumerConfig.GROUP_ID_CONFIG to kafkaConfiguration.kafkaConsumerProperties.grounId,
-        ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-        ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java
-    )
 
     private suspend fun parse(consumerRecord: ConsumerRecord<String, String>): Message? = try {
         val sentTime: LocalDateTime = consumerRecord.getSentTime()
