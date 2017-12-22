@@ -344,7 +344,7 @@
                     <images>
                         <image>
                             <registry>${docker-registry}</registry>
-                            <name>${project.artifactId}:${project.version}</name>
+                            <name>${docker-registry}/${project.artifactId}:${project.version}</name>
                             <build>
                                 <from>openjdk:8-jre-alpine</from>
                                 <tags>latest</tags>
