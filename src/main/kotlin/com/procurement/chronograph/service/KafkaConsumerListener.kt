@@ -48,7 +48,7 @@ class KafkaConsumerListener(
 
     private fun consumerProps(): Map<String, Any> = mapOf(
         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to kafkaConfiguration.kafkaProperties.bootstrapServers,
-        ConsumerConfig.GROUP_ID_CONFIG to kafkaConfiguration.kafkaConsumerProperties.grounId,
+        ConsumerConfig.GROUP_ID_CONFIG to kafkaConfiguration.kafkaConsumerProperties.groupId,
         ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
         ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java
     )

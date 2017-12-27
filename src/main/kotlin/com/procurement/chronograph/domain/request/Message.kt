@@ -42,7 +42,7 @@ sealed class MessageBody
 data class ScheduleMessageBody @JsonCreator constructor(
     @field:NotNull @field:JsonProperty("ocid") @param:JsonProperty("ocid") val ocid: String,
     @field:NotNull @field:JsonProperty("phase") @param:JsonProperty("phase") val phase: String,
-    @field:NotNull @field:JsonProperty("newLaunchTime") @param:JsonProperty("newLaunchTime") val launchTime: LocalDateTime,
+    @field:NotNull @field:JsonProperty("launchTime") @param:JsonProperty("launchTime") val launchTime: LocalDateTime,
     @field:NotNull @field:JsonProperty("metaData") @param:JsonProperty("metaData") val metaData: String
 ) : MessageBody()
 
