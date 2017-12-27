@@ -20,7 +20,7 @@
     <properties>
         <final-artifact-name>${project.artifactId}-${project.version}</final-artifact-name>
         <docker-registry>docker-registry.eprocurement.systems</docker-registry>
-        <project.service.port>9999</project.service.port>
+        <project.service.port>8080</project.service.port>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -346,18 +346,7 @@
                             <registry>${docker-registry}</registry>
                             <name>${docker-registry}/${project.artifactId}:${project.version}</name>
                             <build>
-                                <from>openjdk:8-jre-alpine</from>
-                                <tags>latest</tags>
-                                <ports>
-                                    <port>${project.service.port}</port>
-                                </ports>
-                                <entryPoint>
-                                    <exec>
-                                        <arg>java</arg>
-                                        <arg>-jar</arg>
-                                        <arg>/maven/${final-artifact-name}.jar</arg>
-                                    </exec>
-                                </entryPoint>
+                                <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
                                 <nocache/>
                                 <assembly>
                                     <descriptorRef>artifact</descriptorRef>
