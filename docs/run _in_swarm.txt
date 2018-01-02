@@ -1,0 +1,23 @@
+#*****************************#
+# Create Network if not exist #
+#*****************************#
+
+docker network create \
+  --driver overlay \
+  --subnet 192.168.100.0/24 \
+  --gateway 192.168.100.1 \
+  my-network
+
+
+#****************************************#
+# Run Config-Server                      #
+# Need assign uri, username and password #
+#****************************************#
+
+docker service create --name="chronograph-1" \
+--env __PROP_spring_cloud_config_uri=http://config-server-1:8700 \
+--env __PROP_spring_profiles_active=default \
+--env __PROP_spring_cloud_config_label= \
+--with-registry-auth \
+--network my-network \
+docker-registry.eprocurement.systems/e-chronograph:17.12.1
