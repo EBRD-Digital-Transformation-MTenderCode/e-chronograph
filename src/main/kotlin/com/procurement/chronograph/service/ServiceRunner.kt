@@ -2,9 +2,12 @@ package com.procurement.chronograph.service
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import javax.annotation.PostConstruct
 
-class ServiceRunner(
+interface ServiceRunner {
+    fun run()
+}
+
+class ServiceRunnerImpl(
     private val commandRequestService: CommandRequestService,
     private val cacheService: CacheService,
     private val filterService: FilterService,
@@ -13,13 +16,12 @@ class ServiceRunner(
     private val persistService: PersistService,
     private val deactivateService: DeactivateService,
     private val markRequestService: MarkRequestService
-) {
+) : ServiceRunner {
     companion object {
         val log: Logger = LoggerFactory.getLogger(ServiceRunner::class.java)
     }
 
-    @PostConstruct
-    fun run() {
+    override fun run() {
         log.info("The start is processing...")
         deactivateService.run()
         markRequestService.run()

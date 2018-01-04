@@ -106,7 +106,7 @@ class ServiceConfiguration @Autowired constructor(
 
     @Bean
     fun serviceRunner(): ServiceRunner {
-        return ServiceRunner(
+        return ServiceRunnerImpl(
             commandRequestService = commandRequestService(),
             cacheService = cacheService(),
             filterService = filterService(),
