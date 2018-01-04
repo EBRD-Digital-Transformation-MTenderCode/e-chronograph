@@ -43,8 +43,7 @@ class CommandRequestServiceImpl @Autowired constructor(
     }
 
     private val tickerChannel: LinkedListChannel<LocalDateTime> = LinkedListChannel()
-    private val timeRangeProcessor: TimeRangeProcessor = TimeRangeProcessor(
-        tickerProperties.process)
+    private val timeRangeProcessor: TimeRangeProcessor = TimeRangeProcessor(tickerProperties.process)
 
     private val ticker: AbstractTicker =
         object : AbstractTicker(repeatTime = Duration.ofMillis(tickerProperties.process.repeatTime)) {

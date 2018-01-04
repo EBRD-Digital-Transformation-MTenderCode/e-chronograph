@@ -81,9 +81,11 @@ class ResponseServiceImpl @Autowired constructor(
                 response.send()
                 markRequestChannel.send(
                     MarkRequest(id = response.data.requestId,
-                                                                           key = Key(
-                                                                               ocid = response.data.ocid,
-                                                                               phase = response.data.phase))
+                                key = Key(
+                                    ocid = response.data.ocid,
+                                    phase = response.data.phase
+                                )
+                    )
                 )
             }
 
@@ -91,9 +93,11 @@ class ResponseServiceImpl @Autowired constructor(
                 response.send()
                 markRequestChannel.send(
                     MarkRequest(id = response.data.requestId,
-                                                                           key = Key(
-                                                                               ocid = response.data.ocid,
-                                                                               phase = response.data.phase))
+                                key = Key(
+                                    ocid = response.data.ocid,
+                                    phase = response.data.phase
+                                )
+                    )
                 )
             }
 
@@ -101,9 +105,11 @@ class ResponseServiceImpl @Autowired constructor(
                 response.send()
                 markRequestChannel.send(
                     MarkRequest(id = response.data.requestId,
-                                                                           key = Key(
-                                                                               ocid = response.data.ocid,
-                                                                               phase = response.data.phase))
+                                key = Key(
+                                    ocid = response.data.ocid,
+                                    phase = response.data.phase
+                                )
+                    )
                 )
             }
 
@@ -111,9 +117,11 @@ class ResponseServiceImpl @Autowired constructor(
                 response.send()
                 markRequestChannel.send(
                     MarkRequest(id = response.data.requestId,
-                                                                           key = Key(
-                                                                               ocid = response.data.ocid,
-                                                                               phase = response.data.phase))
+                                key = Key(
+                                    ocid = response.data.ocid,
+                                    phase = response.data.phase
+                                )
+                    )
                 )
             }
         }

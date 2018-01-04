@@ -35,15 +35,14 @@ class KafkaConfiguration @Autowired constructor(
     @Bean
     fun kafkaProducerService(): KafkaProducerService =
         KafkaProducerServiceImpl(kafkaTemplate = kafkaTemplate(),
-                                                                     kafkaProducerProperties = kafkaProducerProperties)
+                                 kafkaProducerProperties = kafkaProducerProperties
+        )
 
     @Bean
     fun kafkaTemplate(): KafkaTemplate<String, String> = KafkaTemplate(producerFactory())
 
     @Bean
-    fun producerFactory(): ProducerFactory<String, String> {
-        return DefaultKafkaProducerFactory(producerConfigs())
-    }
+    fun producerFactory(): ProducerFactory<String, String> = DefaultKafkaProducerFactory(producerConfigs())
 
     fun producerConfigs(): Map<String, Any> = mapOf(
         ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to kafkaProperties.bootstrapServers,

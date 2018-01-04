@@ -213,7 +213,8 @@ class TaskRepositoryTest {
         requestId = requestId,
         key = genKey(),
         launchTime = LAUNCH_TIME,
-        metaData = DATA)
+        metaData = DATA
+    )
 
     private fun appendInsertRequest() {
         execute("""

@@ -1,9 +1,9 @@
 package com.procurement.chronograph.repository
 
-import com.procurement.chronograph.exception.RecordNotFound
-import com.procurement.chronograph.exception.request.SavedRequestException
 import com.procurement.chronograph.domain.Key
 import com.procurement.chronograph.domain.request.*
+import com.procurement.chronograph.exception.RecordNotFound
+import com.procurement.chronograph.exception.request.SavedRequestException
 import org.intellij.lang.annotations.Language
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -105,10 +105,11 @@ RETURNING id;
             MARK_REQUEST_AS_USED,
             mapOf("requestId" to markRequest.id),
             ::mappingId
-        ).getOrElse(0, {
+        ).getOrElse(0) {
             throw RecordNotFound(requestId = markRequest.id,
-                                                                       key = markRequest.key)
-        })
+                                 key = markRequest.key
+            )
+        }
 
     private fun ScheduleMessage.save() = jdbcTemplate.queryForObject(
         SAVE_SCHEDULE_REQUEST_SQL,

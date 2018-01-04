@@ -44,12 +44,10 @@ class DatabaseTestConfiguration {
     fun jdbcTemplate(): NamedParameterJdbcTemplate = NamedParameterJdbcTemplate(dataSource())
 
     @Bean
-    fun taskRepository(): TaskRepository = TaskRepositoryImpl(
-        jdbcTemplate())
+    fun taskRepository(): TaskRepository = TaskRepositoryImpl(jdbcTemplate())
 
     @Bean
-    fun requestRepository(): RequestRepository = RequestRepositoryImpl(
-        jdbcTemplate())
+    fun requestRepository(): RequestRepository = RequestRepositoryImpl(jdbcTemplate())
 
     @Bean
     fun liquibase() = Liquibase(changeLogFile, FileSystemResourceAccessor(liquibaseDir()), database(dataSource()))

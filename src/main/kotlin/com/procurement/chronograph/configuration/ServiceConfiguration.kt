@@ -37,35 +37,35 @@ class ServiceConfiguration @Autowired constructor(
     @Bean
     fun commandRequestService(): CommandRequestService {
         return CommandRequestServiceImpl(tickerProperties = tickerProperties,
-                                                                             commandRequestChannel = channelConfiguration.commandRequestChannel(),
-                                                                             commandChannel = channelConfiguration.commandChannel()
+                                         commandRequestChannel = channelConfiguration.commandRequestChannel(),
+                                         commandChannel = channelConfiguration.commandChannel()
         )
     }
 
     @Bean
     fun cacheService(): CacheService {
         return CacheServiceImpl(tickerProperties = tickerProperties,
-                                                                    cacheChannel = channelConfiguration.cacheChannel(),
-                                                                    filterChannel = channelConfiguration.filterChannel()
+                                cacheChannel = channelConfiguration.cacheChannel(),
+                                filterChannel = channelConfiguration.filterChannel()
         )
     }
 
     @Bean
     fun filterService(): FilterService {
         return FilterServiceImpl(taskRepository = taskRepository,
-                                                                     filterChannel = channelConfiguration.filterChannel(),
-                                                                     notificationChannel = channelConfiguration.notificationChannel()
+                                 filterChannel = channelConfiguration.filterChannel(),
+                                 notificationChannel = channelConfiguration.notificationChannel()
         )
     }
 
     @Bean
     fun responseService(): ResponseService {
         return ResponseServiceImpl(mapper = mapper,
-                                                                       kafkaProducerService = kafkaConfiguration.kafkaProducerService(),
-                                                                       notificationChannel = channelConfiguration.notificationChannel(),
-                                                                       deactivateChannel = channelConfiguration.deactivateChannel(),
-                                                                       errorChannel = channelConfiguration.errorChannel(),
-                                                                       markRequestChannel = channelConfiguration.markRequestChannel()
+                                   kafkaProducerService = kafkaConfiguration.kafkaProducerService(),
+                                   notificationChannel = channelConfiguration.notificationChannel(),
+                                   deactivateChannel = channelConfiguration.deactivateChannel(),
+                                   errorChannel = channelConfiguration.errorChannel(),
+                                   markRequestChannel = channelConfiguration.markRequestChannel()
 
         )
     }
@@ -73,19 +73,19 @@ class ServiceConfiguration @Autowired constructor(
     @Bean
     fun requestService(): RequestService {
         return RequestServiceImpl(kafkaConfiguration = kafkaConfiguration,
-                                                                      mapper = mapper,
-                                                                      requestRepository = requestRepository,
-                                                                      errorChannel = channelConfiguration.errorChannel(),
-                                                                      commandRequestChannel = channelConfiguration.commandRequestChannel()
+                                  mapper = mapper,
+                                  requestRepository = requestRepository,
+                                  errorChannel = channelConfiguration.errorChannel(),
+                                  commandRequestChannel = channelConfiguration.commandRequestChannel()
         )
     }
 
     @Bean
     fun persistService(): PersistService {
         return PersistServiceImpl(taskRepository = taskRepository,
-                                                                      commandChannel = channelConfiguration.commandChannel(),
-                                                                      cacheChannel = channelConfiguration.cacheChannel(),
-                                                                      errorChannel = channelConfiguration.errorChannel()
+                                  commandChannel = channelConfiguration.commandChannel(),
+                                  cacheChannel = channelConfiguration.cacheChannel(),
+                                  errorChannel = channelConfiguration.errorChannel()
 
         )
     }
@@ -93,14 +93,14 @@ class ServiceConfiguration @Autowired constructor(
     @Bean
     fun deactivateService(): DeactivateService {
         return DeactivateServiceImpl(taskRepository = taskRepository,
-                                                                         deactivateChannel = channelConfiguration.deactivateChannel()
+                                     deactivateChannel = channelConfiguration.deactivateChannel()
         )
     }
 
     @Bean
     fun markRequestService(): MarkRequestService {
         return MarkRequestServiceImpl(requestRepository = requestRepository,
-                                                                          markRequestChannel = channelConfiguration.markRequestChannel()
+                                      markRequestChannel = channelConfiguration.markRequestChannel()
         )
     }
 

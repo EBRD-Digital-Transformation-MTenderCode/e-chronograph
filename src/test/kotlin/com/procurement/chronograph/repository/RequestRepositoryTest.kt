@@ -71,32 +71,22 @@ class RequestRepositoryTest {
         list.forEach { message ->
             when (message) {
                 is ScheduleRequest -> {
-                    assertEquals(message.key.ocid,
-                                 OCID_SCHEDULE)
-                    assertEquals(message.key.phase,
-                                 PHASE_SCHEDULE)
-                    assertEquals(message.launchTime,
-                                 LAUNCH_TIME_SCHEDULE)
-                    assertEquals(message.metaData,
-                                 DATA_SCHEDULE)
+                    assertEquals(message.key.ocid, OCID_SCHEDULE)
+                    assertEquals(message.key.phase, PHASE_SCHEDULE)
+                    assertEquals(message.launchTime, LAUNCH_TIME_SCHEDULE)
+                    assertEquals(message.metaData, DATA_SCHEDULE)
                 }
 
                 is ReplaceRequest -> {
-                    assertEquals(message.key.ocid,
-                                 OCID_REPLACE)
-                    assertEquals(message.key.phase,
-                                 PHASE_REPLACE)
-                    assertEquals(message.newLaunchTime,
-                                 LAUNCH_TIME_REPLACE)
-                    assertEquals(message.metaData,
-                                 DATA_REPLACE)
+                    assertEquals(message.key.ocid, OCID_REPLACE)
+                    assertEquals(message.key.phase, PHASE_REPLACE)
+                    assertEquals(message.newLaunchTime, LAUNCH_TIME_REPLACE)
+                    assertEquals(message.metaData, DATA_REPLACE)
                 }
 
                 is CancelRequest -> {
-                    assertEquals(message.key.ocid,
-                                 OCID_CANCEL)
-                    assertEquals(message.key.phase,
-                                 PHASE_CANCEL)
+                    assertEquals(message.key.ocid, OCID_CANCEL)
+                    assertEquals(message.key.phase, PHASE_CANCEL)
                 }
             }
         }

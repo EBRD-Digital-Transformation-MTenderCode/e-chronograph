@@ -3,8 +3,6 @@ package com.procurement.chronograph.service
 import com.procurement.chronograph.channel.ReceiveCommandChannel
 import com.procurement.chronograph.channel.SendCacheChannel
 import com.procurement.chronograph.channel.SendErrorChannel
-import com.procurement.chronograph.exception.task.TaskAlreadyException
-import com.procurement.chronograph.exception.task.TaskNotFoundException
 import com.procurement.chronograph.domain.ClosedTimeRange
 import com.procurement.chronograph.domain.EmptyTimeRange
 import com.procurement.chronograph.domain.OpenTimeRange
@@ -16,6 +14,8 @@ import com.procurement.chronograph.domain.response.CancelErrorResponse
 import com.procurement.chronograph.domain.response.ReplaceErrorResponse
 import com.procurement.chronograph.domain.response.ScheduleErrorResponse
 import com.procurement.chronograph.domain.task.Task
+import com.procurement.chronograph.exception.task.TaskAlreadyException
+import com.procurement.chronograph.exception.task.TaskNotFoundException
 import com.procurement.chronograph.repository.TaskRepository
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
@@ -84,9 +84,10 @@ class PersistServiceImpl @Autowired constructor(
 
     private suspend fun ScheduleTaskCommand.scheduling() {
         val task = Task(requestId = this.requestId,
-                                                                key = this.key,
-                                                                launchTime = this.launchTime,
-                                                                metaData = this.metaData)
+                        key = this.key,
+                        launchTime = this.launchTime,
+                        metaData = this.metaData
+        )
         if (task.save()) {
             val timeRange = this.timeRange
             when (timeRange) {
@@ -126,9 +127,10 @@ class PersistServiceImpl @Autowired constructor(
 
     private suspend fun ReplaceTaskCommand.replacing() {
         val task = Task(requestId = this.requestId,
-                                                                key = this.key,
-                                                                launchTime = this.newLaunchTime,
-                                                                metaData = this.metaData)
+                        key = this.key,
+                        launchTime = this.newLaunchTime,
+                        metaData = this.metaData
+        )
         if (task.replace()) {
             val timeRange = this.timeRange
             when (timeRange) {

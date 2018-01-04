@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.procurement.chronograph.channel.SendCommandRequestChannel
 import com.procurement.chronograph.channel.SendErrorChannel
 import com.procurement.chronograph.configuration.KafkaConfiguration
-import com.procurement.chronograph.exception.request.SavedRequestException
 import com.procurement.chronograph.domain.Key
 import com.procurement.chronograph.domain.request.*
 import com.procurement.chronograph.domain.response.ExpireLaunchTimeErrorResponse
 import com.procurement.chronograph.domain.response.ParseBodyRequestErrorResponse
 import com.procurement.chronograph.domain.response.SaveBodyRequestErrorResponse
+import com.procurement.chronograph.exception.request.SavedRequestException
 import com.procurement.chronograph.repository.RequestRepository
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
@@ -56,12 +56,9 @@ class RequestServiceImpl @Autowired constructor(
                     message.save()
                         ?.let { requestId ->
                             when (message) {
-                                is ScheduleMessage -> message.toRequest(
-                                    requestId).send()
-                                is ReplaceMessage -> message.toRequest(
-                                    requestId).send()
-                                is CancelMessage -> message.toRequest(
-                                    requestId).send()
+                                is ScheduleMessage -> message.toRequest(requestId).send()
+                                is ReplaceMessage -> message.toRequest(requestId).send()
+                                is CancelMessage -> message.toRequest(requestId).send()
                             }
                         }
                 }
@@ -164,7 +161,8 @@ class RequestServiceImpl @Autowired constructor(
             is ScheduleMessage -> ScheduleRequest(
                 id = requestId,
                 key = Key(ocid = this.body.ocid,
-                                                             phase = this.body.phase),
+                          phase = this.body.phase
+                ),
                 launchTime = this.body.launchTime,
                 metaData = this.body.metaData,
                 sentTime = this.sentTime,
@@ -173,7 +171,8 @@ class RequestServiceImpl @Autowired constructor(
             is ReplaceMessage -> ReplaceRequest(
                 id = requestId,
                 key = Key(ocid = this.body.ocid,
-                                                             phase = this.body.phase),
+                          phase = this.body.phase
+                ),
                 newLaunchTime = this.body.launchTime,
                 metaData = this.body.metaData,
                 sentTime = this.sentTime,
@@ -182,7 +181,8 @@ class RequestServiceImpl @Autowired constructor(
             is CancelMessage -> CancelRequest(
                 id = requestId,
                 key = Key(ocid = this.body.ocid,
-                                                             phase = this.body.phase),
+                          phase = this.body.phase
+                ),
                 sentTime = this.sentTime,
                 receivedTime = this.receivedTime
             )

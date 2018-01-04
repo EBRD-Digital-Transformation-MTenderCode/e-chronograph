@@ -1,8 +1,8 @@
 package com.procurement.chronograph.service
 
 import com.procurement.chronograph.channel.ReceiveDeactivateChannel
-import com.procurement.chronograph.exception.task.DeactivateTaskException
 import com.procurement.chronograph.domain.task.Task
+import com.procurement.chronograph.exception.task.DeactivateTaskException
 import com.procurement.chronograph.repository.TaskRepository
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart

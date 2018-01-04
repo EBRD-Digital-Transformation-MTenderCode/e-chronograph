@@ -23,10 +23,8 @@ class DatabaseConfiguration @Autowired constructor(
     fun jdbcTemplate() = NamedParameterJdbcTemplate(dataSource)
 
     @Bean
-    fun taskRepository(): TaskRepository = TaskRepositoryImpl(
-        jdbcTemplate = jdbcTemplate())
+    fun taskRepository(): TaskRepository = TaskRepositoryImpl(jdbcTemplate = jdbcTemplate())
 
     @Bean
-    fun requestRepository(): RequestRepository = RequestRepositoryImpl(
-        jdbcTemplate = jdbcTemplate())
+    fun requestRepository(): RequestRepository = RequestRepositoryImpl(jdbcTemplate = jdbcTemplate())
 }

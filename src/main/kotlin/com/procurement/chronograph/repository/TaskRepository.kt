@@ -1,9 +1,9 @@
 package com.procurement.chronograph.repository
 
-import com.procurement.chronograph.exception.RecordNotFound
 import com.procurement.chronograph.domain.Key
 import com.procurement.chronograph.domain.request.RequestId
 import com.procurement.chronograph.domain.task.Task
+import com.procurement.chronograph.exception.RecordNotFound
 import com.procurement.chronograph.exception.task.*
 import com.procurement.chronograph.times.nowUTC
 import org.intellij.lang.annotations.Language
@@ -120,7 +120,8 @@ WHERE used = FALSE AND id = :requestId;
     override fun exists(key: Key): Boolean = jdbcTemplate.query(
         EXISTS_SQL,
         mapOf("ocid" to key.ocid,
-              "phase" to key.phase),
+              "phase" to key.phase
+        ),
         this::mappingExists
     ).single()
 
@@ -132,8 +133,9 @@ WHERE used = FALSE AND id = :requestId;
     } catch (ex: Exception) {
         when (ex) {
             is DuplicateKeyException -> throw TaskAlreadyException(requestId = task.requestId,
-                                                                                                              key = task.key,
-                                                                                                              exception = ex)
+                                                                   key = task.key,
+                                                                   exception = ex
+            )
             else -> throw SavedTaskException(task.requestId, task.key, ex)
         }
     }
@@ -148,8 +150,8 @@ WHERE used = FALSE AND id = :requestId;
         when (ex) {
             is RecordNotFound ->
                 throw TaskNotFoundException(requestId = ex.requestId,
-                                                                                       key = ex.key,
-                                                                                       message = "Task (request id: ${ex.requestId}, key: ${ex.key}) for replace not found."
+                                            key = ex.key,
+                                            message = "Task (request id: ${ex.requestId}, key: ${ex.key}) for replace not found."
                 )
             else -> throw ReplaceTaskException(task.requestId, task.key, ex)
         }
@@ -163,12 +165,10 @@ WHERE used = FALSE AND id = :requestId;
         when (ex) {
             is RecordNotFound ->
                 throw TaskNotFoundException(requestId = task.requestId,
-                                                                                       key = task.key,
-                                                                                       message = "Task for deactivate not found (request id: ${task.requestId}, key: ${task.key})."
+                                            key = task.key,
+                                            message = "Task for deactivate not found (request id: ${task.requestId}, key: ${task.key})."
                 )
-            else -> throw DeactivateTaskException(task.requestId,
-                                                                                             task.key,
-                                                                                             ex)
+            else -> throw DeactivateTaskException(task.requestId, task.key, ex)
         }
     }
 
@@ -181,8 +181,8 @@ WHERE used = FALSE AND id = :requestId;
         when (ex) {
             is RecordNotFound ->
                 throw TaskNotFoundException(requestId = requestId,
-                                                                                       key = key,
-                                                                                       message = "Task for cancel not found (request id: $requestId, key: $key)."
+                                            key = key,
+                                            message = "Task for cancel not found (request id: $requestId, key: $key)."
                 )
             else -> throw CancelTaskException(requestId, key, ex)
         }
@@ -195,7 +195,8 @@ WHERE used = FALSE AND id = :requestId;
               "phase" to task.key.phase,
               "newLaunchTime" to task.launchTime,
               "taskData" to task.metaData,
-              "createdTime" to nowUTC()),
+              "createdTime" to nowUTC()
+        ),
         this::mappingId
     )
 
@@ -213,7 +214,8 @@ WHERE used = FALSE AND id = :requestId;
         DEACTIVATE_SQL,
         mapOf("ocid" to key.ocid,
               "phase" to key.phase,
-              "deactivateTime" to nowUTC()),
+              "deactivateTime" to nowUTC()
+        ),
         this::mappingId
     ).getOrElse(0, { throw RecordNotFound(requestId = requestId, key = key) })
 
