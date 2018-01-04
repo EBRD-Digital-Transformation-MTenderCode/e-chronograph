@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.ocds.chronograph" level="DEBUG" additivity="false">
+    <logger name="com.procurement.chronograph" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 
