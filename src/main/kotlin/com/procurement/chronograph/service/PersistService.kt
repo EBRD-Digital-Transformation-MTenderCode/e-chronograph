@@ -44,7 +44,7 @@ class PersistServiceImpl @Autowired constructor(
     }
 
     private val coroutine = launch(context = CommonPool, start = CoroutineStart.LAZY) {
-        log.debug("Starting 'PersistService'...")
+        log.info("Starting 'PersistService'...")
         while (true) {
             select<Unit> {
                 commandChannel.onReceive { command ->

@@ -38,7 +38,7 @@ class ResponseServiceImpl @Autowired constructor(
     }
 
     private val coroutine = launch(context = CommonPool, start = CoroutineStart.LAZY) {
-        log.debug("Starting 'ResponseService'...")
+        log.info("Starting 'ResponseService'...")
         while (true) {
             select<Unit> {
                 notificationChannel.onReceive { task -> task.processing() }

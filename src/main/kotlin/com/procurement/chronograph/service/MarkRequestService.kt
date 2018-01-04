@@ -28,7 +28,7 @@ class MarkRequestServiceImpl @Autowired constructor(
     }
 
     private val coroutine = launch(context = CommonPool, start = CoroutineStart.LAZY) {
-        log.debug("Starting 'DeactivateService'...")
+        log.info("Starting 'DeactivateService'...")
         while (true) {
             select<Unit> {
                 markRequestChannel.onReceive { requestId -> mark(requestId) }

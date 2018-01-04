@@ -29,7 +29,7 @@ class FilterServiceImpl @Autowired constructor(
     }
 
     private val coroutine = launch(context = CommonPool, start = CoroutineStart.LAZY) {
-        log.debug("Starting 'FilterService'...")
+        log.info("Starting 'FilterService'...")
         while (true) {
             select<Unit> {
                 filterChannel.onReceive { tasks ->

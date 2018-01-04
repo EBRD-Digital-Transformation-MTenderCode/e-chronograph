@@ -42,7 +42,7 @@ class RequestServiceImpl @Autowired constructor(
     }
 
     private val coroutine = launch(context = CommonPool, start = CoroutineStart.LAZY) {
-        log.debug("Starting 'RequestService'...")
+        log.info("Starting 'RequestService'...")
 
         load().forEach { request ->
             log.debug("A request was received for processing: $request.")

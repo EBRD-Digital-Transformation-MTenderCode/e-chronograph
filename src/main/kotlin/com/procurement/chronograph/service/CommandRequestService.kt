@@ -54,7 +54,7 @@ class CommandRequestServiceImpl @Autowired constructor(
         }
 
     private val coroutine = launch(context = CommonPool, start = CoroutineStart.LAZY) {
-        log.debug("Starting 'CommandService'...")
+        log.info("Starting 'CommandService'...")
 
         val openTimeRange = timeRangeProcessor.first()
         ticker.start(delayTime = openTimeRange.delayTime)
