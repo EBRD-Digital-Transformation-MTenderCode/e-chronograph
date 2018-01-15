@@ -6,7 +6,7 @@ docker network create \
   --driver overlay \
   --subnet 192.168.100.0/24 \
   --gateway 192.168.100.1 \
-  my-network
+  ocds-network
 
 
 #****************************************#
@@ -15,9 +15,12 @@ docker network create \
 #****************************************#
 
 docker service create --name="chronograph-1" \
---env __PROP_spring_cloud_config_uri=http://config-server-1:8700 \
---env __PROP_spring_profiles_active=default \
---env __PROP_spring_cloud_config_label= \
---with-registry-auth \
---network my-network \
-docker-registry.eprocurement.systems/e-chronograph:17.12.1
+  --env __PROP_spring_cloud_config_uri=http://config-server-1:8700 \
+  --env __PROP_spring_profiles_active=default \
+  --env __PROP_spring_cloud_config_label= \
+  --network ocds-network \
+  --dns 185.104.44.33 \
+  --dns 185.104.46.33 \
+  --dns 62.4.14.98 \
+  --with-registry-auth \
+  docker-registry.eprocurement.systems/e-chronograph:17.12.1
