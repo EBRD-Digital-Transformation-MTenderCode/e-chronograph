@@ -19,8 +19,6 @@ docker service create --name="chronograph-1" \
   --env __PROP_spring_profiles_active=default \
   --env __PROP_spring_cloud_config_label= \
   --network ocds-network \
-  --dns 185.104.44.33 \
-  --dns 185.104.46.33 \
-  --dns 62.4.14.98 \
+  --dns 10.0.10.115 \
   --with-registry-auth \
   docker-registry.eprocurement.systems/e-chronograph:17.12.1
