@@ -33,9 +33,9 @@ data class CancelMessage(
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "action")
 @JsonSubTypes(
-    JsonSubTypes.Type(value = ScheduleMessageBody::class, name = "schedule"),
-    JsonSubTypes.Type(value = ReplaceMessageBody::class, name = "cancel"),
-    JsonSubTypes.Type(value = CancelMessageBody::class, name = "replace")
+    JsonSubTypes.Type(value = ScheduleMessageBody::class, name = "SCHEDULE"),
+    JsonSubTypes.Type(value = ReplaceMessageBody::class, name = "REPLACE"),
+    JsonSubTypes.Type(value = CancelMessageBody::class, name = "CANCEL")
 )
 sealed class MessageBody
 
