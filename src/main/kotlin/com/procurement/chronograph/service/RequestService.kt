@@ -106,7 +106,7 @@ class RequestServiceImpl @Autowired constructor(
         if (this.timestamp() < 0)
             LocalDateTime.now()
         else
-            LocalDateTime.ofInstant(Instant.ofEpochSecond(this.timestamp()), ZoneId.of("UTC"))
+            LocalDateTime.ofInstant(Instant.ofEpochSecond(this.timestamp() / 1000), ZoneId.of("UTC"))
 
     private suspend fun Message.save(): RequestId? = try {
         requestRepository.save(this)
