@@ -33,6 +33,7 @@
         <docker-maven-plugin.version>0.23.0</docker-maven-plugin.version>
         <junit-jupiter.version>5.0.0</junit-jupiter.version>
         <junit-platform.version>1.0.0</junit-platform.version>
+        <logstash.logback.encoder.version>4.11</logstash.logback.encoder.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>2.19</maven-failsafe-plugin.version>
@@ -170,6 +171,15 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-access</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash.logback.encoder.version}</version>
+        </dependency>
 
         <!--Test-->
         <dependency>
@@ -246,7 +256,6 @@
                 <includes>
                     <include>bootstrap.yml</include>
                     <include>banner.txt</include>
-                    <include>logback.xml</include>
                 </includes>
             </resource>
         </resources>
@@ -346,7 +355,7 @@
                             <registry>${docker-registry}</registry>
                             <name>${docker-registry}/${project.artifactId}:${project.version}</name>
                             <build>
-                                <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
+                                <dockerFileDir>${project.basedir}/src/main</dockerFileDir>
                                 <nocache/>
                                 <assembly>
                                     <descriptorRef>artifact</descriptorRef>

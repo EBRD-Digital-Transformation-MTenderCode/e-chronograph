@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ -n "$1" ]
 then
-  command="java"
+  command="java -Xmx256m -Dlogging.config=/maven/config/logback.xml"
 
   for param in `printenv | awk '/^__PROP_/{print $0}'`
   do
@@ -13,6 +13,7 @@ then
   done
 
   command="${command} -jar $1"
+  echo ${command}
   eval ${command}
 else
   echo "No artifact to run."
