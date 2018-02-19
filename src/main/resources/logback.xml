@@ -36,7 +36,7 @@
         </encoder>
     </appender>
 
-    <appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>elk.eprocurement.systems:5044</destination>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
@@ -61,12 +61,12 @@
 
     <logger name="com.procurement.chronograph" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
-        <appender-ref ref="ELK"/>
+        <appender-ref ref="LOGSTASH"/>
     </logger>
 
     <logger name="org.springframework" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
-        <appender-ref ref="ELK"/>
+        <appender-ref ref="LOGSTASH"/>
     </logger>
 
     <root level="INFO">
