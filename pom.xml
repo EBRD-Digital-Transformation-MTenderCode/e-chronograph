@@ -30,6 +30,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <kotlinx-coroutines.version>0.19.3</kotlinx-coroutines.version>
 
+        <docker-image-profile></docker-image-profile>
         <docker-maven-plugin.version>0.23.0</docker-maven-plugin.version>
         <junit-jupiter.version>5.0.0</junit-jupiter.version>
         <junit-platform.version>1.0.0</junit-platform.version>
@@ -353,7 +354,7 @@
                     <images>
                         <image>
                             <registry>${docker-registry}</registry>
-                            <name>${docker-registry}/${project.artifactId}:${project.version}</name>
+                            <name>${docker-registry}/${project.artifactId}${docker-image-profile}:${project.version}</name>
                             <build>
                                 <dockerFileDir>${project.basedir}/src/main</dockerFileDir>
                                 <nocache/>
