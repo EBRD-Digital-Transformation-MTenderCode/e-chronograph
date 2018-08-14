@@ -1,7 +1,16 @@
 package com.procurement.chronograph.repository
 
 import com.procurement.chronograph.domain.Key
-import com.procurement.chronograph.domain.request.*
+import com.procurement.chronograph.domain.request.CancelMessage
+import com.procurement.chronograph.domain.request.CancelRequest
+import com.procurement.chronograph.domain.request.MarkRequest
+import com.procurement.chronograph.domain.request.Message
+import com.procurement.chronograph.domain.request.ReplaceMessage
+import com.procurement.chronograph.domain.request.ReplaceRequest
+import com.procurement.chronograph.domain.request.Request
+import com.procurement.chronograph.domain.request.RequestId
+import com.procurement.chronograph.domain.request.ScheduleMessage
+import com.procurement.chronograph.domain.request.ScheduleRequest
 import com.procurement.chronograph.exception.RecordNotFound
 import com.procurement.chronograph.exception.request.SavedRequestException
 import org.intellij.lang.annotations.Language
@@ -95,8 +104,10 @@ RETURNING id;
                 }
             }
         }
+    } catch (ex: SavedRequestException) {
+        throw ex
     } catch (ex: Exception) {
-        throw SavedRequestException(ex)
+        throw SavedRequestException(request = message.toString(), exception = ex)
     }
 
     @Transactional
@@ -106,12 +117,10 @@ RETURNING id;
             mapOf("requestId" to markRequest.id),
             ::mappingId
         ).getOrElse(0) {
-            throw RecordNotFound(requestId = markRequest.id,
-                                 key = markRequest.key
-            )
+            throw RecordNotFound(requestId = markRequest.id, key = markRequest.key)
         }
 
-    private fun ScheduleMessage.save() = jdbcTemplate.queryForObject(
+    private fun ScheduleMessage.save(): Long = jdbcTemplate.queryForObject(
         SAVE_SCHEDULE_REQUEST_SQL,
         mapOf(
             "action" to Actions.SCHEDULE.toString(),
@@ -123,9 +132,9 @@ RETURNING id;
             "receivedTime" to this.receivedTime
         ),
         ::mappingId
-    )
+    ) ?: throw SavedRequestException(request = this.toString())
 
-    private fun ReplaceMessage.save() = jdbcTemplate.queryForObject(
+    private fun ReplaceMessage.save(): Long = jdbcTemplate.queryForObject(
         SAVE_REPLACE_REQUEST_SQL,
         mapOf(
             "action" to Actions.REPLACE.toString(),
@@ -137,9 +146,9 @@ RETURNING id;
             "receivedTime" to this.receivedTime
         ),
         ::mappingId
-    )
+    ) ?: throw SavedRequestException(request = this.toString())
 
-    private fun CancelMessage.save() = jdbcTemplate.queryForObject(
+    private fun CancelMessage.save(): Long = jdbcTemplate.queryForObject(
         SAVE_CANCEL_REQUEST_SQL,
         mapOf(
             "action" to Actions.CANCEL.toString(),
@@ -149,7 +158,7 @@ RETURNING id;
             "receivedTime" to this.receivedTime
         ),
         ::mappingId
-    )
+    ) ?: throw SavedRequestException(request = this.toString())
 
     private fun mappingId(rs: ResultSet, rowNum: Int): Long = rs.getLong(1)
 

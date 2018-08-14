@@ -63,14 +63,14 @@ class TaskRepositoryTest {
         val task = genTask(insertRequestId)
         taskRepository.save(task)
 
-        assertTrue(taskRepository.exists(task.key))
+        assertTrue(taskRepository.existsByRequestId(task.requestId))
     }
 
     @Test
     @DisplayName("Testing the method exists task (task is not found).")
     fun existsFalse() {
         val task = genTask(insertRequestId)
-        assertFalse(taskRepository.exists(task.key))
+        assertFalse(taskRepository.existsByRequestId(task.requestId))
     }
 
     @Test

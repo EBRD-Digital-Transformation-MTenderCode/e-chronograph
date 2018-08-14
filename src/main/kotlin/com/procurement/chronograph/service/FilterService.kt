@@ -35,7 +35,7 @@ class FilterServiceImpl @Autowired constructor(
                 filterChannel.onReceive { tasks ->
                     log.debug("Received a set of tasks from the cache for processing: $this.")
                     tasks.forEach { task ->
-                        if (taskRepository.exists(task.key)) {
+                        if (taskRepository.existsByRequestId(task.requestId)) {
                             notificationChannel.send(task)
                             log.debug("A task was sent for processing: $this")
                         } else {

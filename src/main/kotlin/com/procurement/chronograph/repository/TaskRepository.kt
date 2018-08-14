@@ -4,7 +4,12 @@ import com.procurement.chronograph.domain.Key
 import com.procurement.chronograph.domain.request.RequestId
 import com.procurement.chronograph.domain.task.Task
 import com.procurement.chronograph.exception.RecordNotFound
-import com.procurement.chronograph.exception.task.*
+import com.procurement.chronograph.exception.task.CancelTaskException
+import com.procurement.chronograph.exception.task.DeactivateTaskException
+import com.procurement.chronograph.exception.task.ReplaceTaskException
+import com.procurement.chronograph.exception.task.SavedTaskException
+import com.procurement.chronograph.exception.task.TaskAlreadyException
+import com.procurement.chronograph.exception.task.TaskNotFoundException
 import com.procurement.chronograph.times.nowUTC
 import org.intellij.lang.annotations.Language
 import org.slf4j.Logger
@@ -22,7 +27,7 @@ interface TaskRepository {
 
     fun load(startPeriod: LocalDateTime, endPeriod: LocalDateTime): List<Task>
 
-    fun exists(key: Key): Boolean
+    fun existsByRequestId (requestId: RequestId): Boolean
 
     fun save(task: Task)
 
@@ -65,10 +70,10 @@ WHERE active = TRUE AND launch_time >= :startTime AND launch_time < :endTime
 """
 
         @Language("PostgreSQL")
-        const val EXISTS_SQL = """
+        const val EXISTS_BY_REQUEST_ID_SQL = """
 SELECT exists(SELECT 1
               FROM tasks
-              WHERE active = TRUE AND ocid = :ocid AND phase = :phase)
+              WHERE active = TRUE AND request_id = :requestId)
 """
 
         @Language("PostgreSQL")
@@ -117,11 +122,9 @@ WHERE used = FALSE AND id = :requestId;
     )
 
     @Transactional(readOnly = true)
-    override fun exists(key: Key): Boolean = jdbcTemplate.query(
-        EXISTS_SQL,
-        mapOf("ocid" to key.ocid,
-              "phase" to key.phase
-        ),
+    override fun existsByRequestId(requestId: RequestId): Boolean = jdbcTemplate.query(
+        EXISTS_BY_REQUEST_ID_SQL,
+        mapOf("requestId" to requestId),
         this::mappingExists
     ).single()
 
@@ -202,13 +205,14 @@ WHERE used = FALSE AND id = :requestId;
 
     private fun cancelTask(requestId: RequestId, key: Key): RequestId = jdbcTemplate.query(
         CANCEL_SQL,
-        mapOf(
-            "ocid" to key.ocid,
-            "phase" to key.phase,
-            "canceledTime" to nowUTC()
+        mapOf("ocid" to key.ocid,
+              "phase" to key.phase,
+              "canceledTime" to nowUTC()
         ),
         this::mappingId
-    ).getOrElse(0, { throw RecordNotFound(requestId = requestId, key = key) })
+    ).getOrElse(0) {
+        throw RecordNotFound(requestId = requestId, key = key)
+    }
 
     private fun deactivateTask(requestId: RequestId, key: Key): RequestId = jdbcTemplate.query(
         DEACTIVATE_SQL,
@@ -217,7 +221,9 @@ WHERE used = FALSE AND id = :requestId;
               "deactivateTime" to nowUTC()
         ),
         this::mappingId
-    ).getOrElse(0, { throw RecordNotFound(requestId = requestId, key = key) })
+    ).getOrElse(0) {
+        throw RecordNotFound(requestId = requestId, key = key)
+    }
 
     private fun requestProcessed(requestId: RequestId) = jdbcTemplate.update(
         MARK_REQUEST_SQL,
