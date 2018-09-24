@@ -13,7 +13,6 @@ then
   done
 
   command="${command} -jar $1"
-  echo ${command}
   eval ${command}
 else
   echo "No artifact to run."
