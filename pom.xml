@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.procurement</groupId>
-    <artifactId>e-chronograph</artifactId>
+    <artifactId>chronograph</artifactId>
     <version>17.12.1</version>
     <packaging>jar</packaging>
 
-    <name>e-chronograph</name>
+    <name>chronograph</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -10,7 +10,7 @@ docker network create \
 
 
 #****************************************#
-# Run E-Chronograph                      #
+# Run Chronograph                        #
 # Need assign uri, username and password #
 #****************************************#
 
@@ -19,5 +19,5 @@ docker run -d --name=chronograph-1 \
   --env __PROP_spring_profiles_active=default \
   --env __PROP_spring_cloud_config_label= \
   --network ocds-network \
-  --dns 10.0.10.115 \
-  docker-registry.eprocurement.systems/e-chronograph:17.12.1
+  --dns 10.0.20.115 \
+  dev.docker-registry.eprocurement.systems/chronograph:17.12.1

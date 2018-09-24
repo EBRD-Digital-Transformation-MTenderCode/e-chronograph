@@ -10,15 +10,15 @@ docker network create \
 
 
 #****************************************#
-# Run Config-Server                      #
+# Run Chronograph                        #
 # Need assign uri, username and password #
 #****************************************#
 
-docker service create --name="chronograph-1" \
-  --env __PROP_spring_cloud_config_uri=http://config-server-1:8700 \
+docker service create --name="chronograph" \
+  --env __PROP_spring_cloud_config_uri=http://config-server:8080 \
   --env __PROP_spring_profiles_active=default \
   --env __PROP_spring_cloud_config_label= \
   --network ocds-network \
-  --dns 10.0.10.115 \
+  --dns 10.0.20.115 \
   --with-registry-auth \
-  docker-registry.eprocurement.systems/e-chronograph:17.12.1
+  dev.docker-registry.eprocurement.systems/chronograph:17.12.1
