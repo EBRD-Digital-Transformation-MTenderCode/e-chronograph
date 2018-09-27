@@ -22,7 +22,7 @@
                     <fieldName>level</fieldName>
                 </logLevel>
                 <pattern>
-                    <pattern>{"appName": "chronograph", "appVersion": "17.12.1"}</pattern>
+                    <pattern>{"appName": "chronograph", "appVersion": "1.1.1"}</pattern>
                 </pattern>
                 <version/> <!-- Logstash json format version, the @version field in the output-->
                 <loggerName/>
@@ -45,7 +45,7 @@
                     <fieldName>level</fieldName>
                 </logLevel>
                 <pattern>
-                    <pattern>{"appName": "chronograph", "appVersion": "17.12.1"}</pattern>
+                    <pattern>{"appName": "chronograph", "appVersion": "1.1.1"}</pattern>
                 </pattern>
                 <version/> <!-- Logstash json format version, the @version field in the output-->
                 <loggerName/>
