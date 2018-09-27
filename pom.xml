@@ -5,7 +5,7 @@
 
     <groupId>com.procurement</groupId>
     <artifactId>chronograph</artifactId>
-    <version>17.12.1</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
 
     <name>chronograph</name>
@@ -32,7 +32,7 @@
 
         <!--Docker-->
         <docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>
-        <docker-image-profile></docker-image-profile>
+        <docker-image-profile>-swarm</docker-image-profile>
         <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
 
         <!--Spring-->
