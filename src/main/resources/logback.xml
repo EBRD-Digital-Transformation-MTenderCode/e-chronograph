@@ -59,14 +59,16 @@
         </encoder>
     </appender>
 
-    <logger name="com.procurement.chronograph" level="WARN" additivity="false">
+    <logger name="com.procurement.chronograph" level="INFO" additivity="false">
         <appender-ref ref="FILE"/>
         <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="org.springframework" level="WARN" additivity="false">
+    <logger name="org.springframework" level="INFO" additivity="false">
         <appender-ref ref="FILE"/>
         <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
 
     <root level="INFO">
