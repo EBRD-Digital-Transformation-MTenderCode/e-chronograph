@@ -31,8 +31,10 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
 
         <!--Docker-->
-        <docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>
-        <docker-image-profile>-swarm</docker-image-profile>
+        <docker-registry>docker-registry.eprocurement.systems</docker-registry>
+        <!--<docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>-->
+        <!--<docker-registry>docker.io/eprocurementsystems</docker-registry>-->
+        <docker-image-profile></docker-image-profile>
         <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
 
         <!--Spring-->
