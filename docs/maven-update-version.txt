@@ -1,0 +1,5 @@
+mvn enforcer:display-info
+
+mvn versions:display-property-updates
+mvn versions:display-plugin-updates
+mvn versions:display-dependency-updates
