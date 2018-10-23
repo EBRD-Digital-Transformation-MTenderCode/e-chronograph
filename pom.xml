@@ -46,6 +46,7 @@
         <junit-platform.version>1.2.0</junit-platform.version>
 
         <!--Plugins-->
+        <liquibase-maven-plugin.version>3.6.2</liquibase-maven-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
         <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
@@ -61,7 +62,7 @@
                     <plugin>
                         <groupId>org.liquibase</groupId>
                         <artifactId>liquibase-maven-plugin</artifactId>
-                        <version>3.5.3</version>
+                        <version>${liquibase-maven-plugin.version}</version>
                         <configuration>
                             <skip>false</skip>
                             <databaseClass>liquibase.database.core.PostgresDatabase</databaseClass>
