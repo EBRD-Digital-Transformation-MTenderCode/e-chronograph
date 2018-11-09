@@ -1,11 +1,73 @@
-<configuration>
+<configuration scan="true">
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="com.ocds.chronograph" level="DEBUG" additivity="false">
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/chronograph.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/chronograph%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <logLevel>
+                    <fieldName>level</fieldName>
+                </logLevel>
+                <pattern>
+                    <pattern>{"appName": "chronograph", "appVersion": "1.1.1"}</pattern>
+                </pattern>
+                <version/> <!-- Logstash json format version, the @version field in the output-->
+                <loggerName/>
+                <threadName/>
+                <message/>
+                <logstashMarkers/> <!-- Useful so we can add extra information for specific log lines as Markers-->
+                <mdc/>
+                <arguments/> <!--or through StructuredArguments-->
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>logstash.eprocurement.systems:5044</destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <logLevel>
+                    <fieldName>level</fieldName>
+                </logLevel>
+                <pattern>
+                    <pattern>{"appName": "chronograph", "appVersion": "1.1.1"}</pattern>
+                </pattern>
+                <version/> <!-- Logstash json format version, the @version field in the output-->
+                <loggerName/>
+                <threadName/>
+                <message/>
+                <logstashMarkers/> <!-- Useful so we can add extra information for specific log lines as Markers-->
+                <mdc/>
+                <arguments/> <!--or through StructuredArguments-->
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <logger name="com.procurement.chronograph" level="INFO" additivity="false">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="LOGSTASH"/>
         <appender-ref ref="STDOUT"/>
     </logger>
 

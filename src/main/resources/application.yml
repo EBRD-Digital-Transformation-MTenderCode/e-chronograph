@@ -7,7 +7,7 @@ spring:
 
     hikari:
       maximum-pool-size: 10
-      pool-name: chrono-pool
+      pool-name: chronograph-pool
       data-source-properties:
         cachePrepStmts: true
         prepStmtCacheSize: 250
@@ -17,16 +17,11 @@ spring:
     bootstrap-servers: localhost:9092
     producer:
       retries: 5
-      topic: helloworld.t1
+      topic: chronograph-out
     consumer:
-      topic: helloworld.t2
-      group-id: CCC
+      topic: chronograph-in
+      group-id: chronograph-consumer-group
       enable-auto-commit: false
-
-
-#channel:
-#  kafka:
-#    count: 2
 
 ticker:
   process:

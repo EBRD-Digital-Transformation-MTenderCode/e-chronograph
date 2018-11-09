@@ -1,0 +1,23 @@
+#*****************************#
+# Create Network if not exist #
+#*****************************#
+
+docker network create \
+  --driver bridge \
+  --subnet 192.168.100.0/24 \
+  --gateway 192.168.100.1 \
+  ocds-network
+
+
+#****************************************#
+# Run Chronograph                        #
+# Need assign uri, username and password #
+#****************************************#
+
+docker run -d --name=chronograph-1 \
+  --env __PROP_spring_cloud_config_uri=http://config-server-1:8700 \
+  --env __PROP_spring_profiles_active=default \
+  --env __PROP_spring_cloud_config_label= \
+  --network ocds-network \
+  --dns 10.0.20.115 \
+  dev.docker-registry.eprocurement.systems/chronograph:17.12.1

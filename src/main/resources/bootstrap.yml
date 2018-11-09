@@ -3,9 +3,9 @@ server:
 
 spring:
   application:
-    name: e-chronograph
+    name: chronograph
 
   cloud:
     config:
       failFast: true
-      name: e-chronograph
+      name: chronograph

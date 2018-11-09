@@ -1,4 +1,5 @@
-# spring.cloud.config.uri=http://host:port
-# spring.cloud.config.username=
-# spring.cloud.config.password=
-# spring.cloud.config.label=
+# __PROP_spring_profiles_active= value by default: 'default'
+# __PROP_spring_cloud_config_uri=http://host:port
+# __PROP_spring_cloud_config_username=
+# __PROP_spring_cloud_config_password=
+# __PROP_spring_cloud_config_label=
