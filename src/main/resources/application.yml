@@ -29,3 +29,51 @@ ticker:
     advance-time: 3000
   cache:
     repeat-time: 10000
+
+health:
+  config:
+    enabled: false
+
+management:
+  health:
+    #    diskspace:
+    #      enabled: true
+    db:
+      enabled: true
+    #    refresh:
+    #      enabled: false
+    defaults:
+      enabled: false
+
+  endpoint:
+    health:
+      show-details: always
+
+  #    loggers:
+  #      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus"
+
+#    jmx:
+#      domain: com.procurement
+#      exposure:
+#        exclude: "*"
+
+#  metrics:
+#    distribution:
+#      percentiles-histogram:
+#        http:
+#          server:
+#            requests: true
+#      sla:
+#        http:
+#          server:
+#            requests: 1ms,5ms
+#  server:
+#    port: 9999
+#  info:
+#    git:
+#      mode: full
