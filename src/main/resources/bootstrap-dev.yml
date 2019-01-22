@@ -1,0 +1,14 @@
+server:
+  port: @project.service.port@
+
+spring:
+  application:
+    name: e-forms
+
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    enabled: false
