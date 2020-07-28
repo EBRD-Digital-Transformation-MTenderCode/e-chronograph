@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://dev.postgres.eprocurement.systems:5432/chronodb
+    url: jdbc:postgresql://localhost:5432/chronodb
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver

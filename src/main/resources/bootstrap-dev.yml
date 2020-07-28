@@ -3,12 +3,9 @@ server:
 
 spring:
   application:
-    name: e-forms
+    name: chronograph
 
   cloud:
     config:
-      enabled: false
-
-eureka:
-  client:
-    enabled: false
+      failFast: true
+      name: chronograph
