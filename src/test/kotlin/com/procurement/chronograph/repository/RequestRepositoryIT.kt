@@ -17,7 +17,7 @@ import java.time.LocalDateTime
 
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(classes = [DatabaseTestConfiguration::class])
-class RequestRepositoryTest {
+class RequestRepositoryIT {
     companion object {
         private const val OCID_SCHEDULE = "ocid-1"
         private const val OCID_REPLACE = "ocid-2"

@@ -23,7 +23,7 @@ import javax.sql.DataSource
 
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(classes = [DatabaseTestConfiguration::class])
-class TaskRepositoryTest {
+class TaskRepositoryIT {
     companion object {
         private const val insertRequestId = 1L
         private const val deactivateRequestId = 2L
