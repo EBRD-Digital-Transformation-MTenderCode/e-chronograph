@@ -16,36 +16,20 @@ class TimeRangeProcessor(private val processProperties: ProcessProperties) {
         get() = currentTimeRange
 
     fun first(): OpenTimeRange = when (currentTimeRange) {
-        is EmptyTimeRange -> {
-            openTimeRange()
-                .also { currentTimeRange = it }
-        }
-
-        else -> {
-            throw IllegalStateException()
-        }
+        is EmptyTimeRange -> openTimeRange().also { currentTimeRange = it }
+        else -> throw IllegalStateException()
     }
 
     fun next(time: LocalDateTime): ClosedTimeRange = when (currentTimeRange) {
-        is OpenTimeRange -> {
-            closedTimeRange(currentTimeRange as OpenTimeRange, time)
-                .also { currentTimeRange = it }
-        }
-
-        is ClosedTimeRange -> {
-            closedTimeRange(currentTimeRange as ClosedTimeRange, time)
-                .also { currentTimeRange = it }
-        }
-
-        else -> {
-            throw IllegalStateException()
-        }
+        is OpenTimeRange -> closedTimeRange(currentTimeRange as OpenTimeRange, time).also { currentTimeRange = it }
+        is ClosedTimeRange -> closedTimeRange(currentTimeRange as ClosedTimeRange, time).also { currentTimeRange = it }
+        else -> throw IllegalStateException()
     }
 
     private fun openTimeRange(): OpenTimeRange {
         val now = nowUTC()
-        val endTime = now.plusSeconds(processProperties.repeatTime)
-        val advanceTime = endTime.minusSeconds(processProperties.advanceTime)
+        val endTime = now.plus(Duration.ofMillis(processProperties.repeatTime))
+        val advanceTime = endTime.minus(Duration.ofMillis(processProperties.advanceTime))
         val delayTime = Duration.between(now, advanceTime)
         return OpenTimeRange(endTime, delayTime)
     }
@@ -53,16 +37,16 @@ class TimeRangeProcessor(private val processProperties: ProcessProperties) {
     private fun closedTimeRange(openTimeRange: OpenTimeRange, time: LocalDateTime): ClosedTimeRange {
         val startTime = openTimeRange.endExclusive
         val endTime = time
-            .plusSeconds(processProperties.advanceTime)
-            .plusSeconds(processProperties.repeatTime)
+            .plus(Duration.ofMillis(processProperties.advanceTime))
+            .plus(Duration.ofMillis(processProperties.repeatTime))
         return ClosedTimeRange(startTime, endTime)
     }
 
     private fun closedTimeRange(closedTimeRange: ClosedTimeRange, time: LocalDateTime): ClosedTimeRange {
         val startTime = closedTimeRange.endExclusive
         val endTime = time
-            .plusSeconds(processProperties.advanceTime)
-            .plusSeconds(processProperties.repeatTime)
+            .plus(Duration.ofMillis(processProperties.advanceTime))
+            .plus(Duration.ofMillis(processProperties.repeatTime))
         return ClosedTimeRange(startTime, endTime)
     }
 }
